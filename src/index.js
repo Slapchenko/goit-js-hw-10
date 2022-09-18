@@ -1,38 +1,38 @@
 import './css/styles.css';
-import { fetchCountries } from './css/js/fetchCountries';
+import { fetchCountries } from './js/fetchCountries';
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 
 const DEBOUNCE_DELAY = 300;
 
 const refs = {
-  input: document.querySelector('#search-box'),
-  ul: document.querySelector('.country-list'),
-  div: document.querySelector('.country-info'),
+  inputField: document.querySelector('#search-box'),
+  listОfСountries: document.querySelector('.country-list'),
+  countryInfo: document.querySelector('.country-info'),
 };
 
-refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
+refs.inputField.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
-function onInput(e) {
-  let search = refs.input.value.trim();
+function onInput() {
+  let searchQuery = refs.inputField.value.trim();
 
-  if (search.length === 0) {
-    return (refs.ul.innerHTML = '');
+  if (searchQuery.length === 0) {
+    clearСountriesList();
   }
 
-  fetchCountries(search)
+  fetchCountries(searchQuery)
     .then(result => {
       if (result.length > 10) {
-        refs.ul.innerHTML = '';
+        clearСountriesList();
         return Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
       } else if (result.length >= 2 && result.length <= 10) {
-        refs.div.innerHTML = '';
+        clearСountryInfo();
         renderСountriesList(result);
       } else {
-        refs.ul.innerHTML = '';
-        renderCountry(result);
+        clearСountriesList();
+        renderCountryInfo(result);
       }
     })
     .catch(() =>
@@ -49,10 +49,10 @@ function renderСountriesList(countries) {
         </li>`;
     })
     .join('');
-  refs.ul.innerHTML = markup;
+  refs.listОfСountries.innerHTML = markup;
 }
 
-function renderCountry(country) {
+function renderCountryInfo(country) {
   const markup = country
     .map(country => {
       return `<div class="container"><img
@@ -74,5 +74,13 @@ function renderCountry(country) {
 </p>`;
     })
     .join('');
-  refs.div.innerHTML = markup;
+  refs.countryInfo.innerHTML = markup;
+}
+
+function clearСountriesList() {
+  refs.listОfСountries.innerHTML = '';
+}
+
+function clearСountryInfo() {
+  refs.countryInfo.innerHTML = '';
 }
