@@ -66,7 +66,9 @@ function renderCountryInfo(country) {
   <span class="country-info__accent">Capital: </span>${country.capital}
 </p>
 <p class="country-info__item">
-  <span class="country-info__accent">Population: </span>${country.population}
+  <span class="country-info__accent">Population: </span>${new Intl.NumberFormat(
+    'en-En'
+  ).format(country.population)}
 </p>
 <p class="country-info__item">
   <span class="country-info__accent">Languages: </span
