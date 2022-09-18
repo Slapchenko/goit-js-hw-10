@@ -41,11 +41,26 @@ img {
   margin-bottom: 16px;
 }
 
-.country-item {
+.container {
   display: flex;
   align-items: center;
 }
 
-.country-img {
+.country-list__img,
+.country-info__img {
   margin-right: 5px;
+}
+
+.country-info__img,
+.country-info__name {
+  display: inline-block;
+}
+
+.country-info__name {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.country-info__accent {
+  font-weight: 700;
 }

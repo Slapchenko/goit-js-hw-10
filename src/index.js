@@ -17,33 +17,25 @@ function onInput(e) {
   let search = refs.input.value.trim();
 
   if (search.length === 0) {
-    console.log('пустная строка');
     return (refs.ul.innerHTML = '');
   }
 
   fetchCountries(search)
     .then(result => {
-      console.log(result);
-
       if (result.length > 10) {
-        console.log('приехало больше 10 стран');
+        refs.ul.innerHTML = '';
         return Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
-      }
-
-      if (result.length >= 2 && result.length <= 10) {
-        console.log('все ок, рендерю...', result);
+      } else if (result.length >= 2 && result.length <= 10) {
+        refs.div.innerHTML = '';
         renderСountriesList(result);
-      }
-
-      if (result.length === 1) {
-        console.log('вот она =)', result);
+      } else {
         refs.ul.innerHTML = '';
-        rendercountry(result);
+        renderCountry(result);
       }
     })
-    .catch(error =>
+    .catch(() =>
       Notiflix.Notify.failure('Oops, there is no country with that name')
     );
 }
@@ -51,27 +43,36 @@ function onInput(e) {
 function renderСountriesList(countries) {
   const markup = countries
     .map(country => {
-      return `<li class="country-item">
-          <img class="country-img" src="${country.flags.svg}" alt="" width="20">
-          <p class="country-title">${country.name.official}</p>
+      return `<li class="country-list__item container">
+          <img class="country-list__img" src="${country.flags.svg}" alt="National Flag of ${country.name.official}" width="20">
+          <p class="country-list__name">${country.name.official}</p>
         </li>`;
     })
     .join('');
   refs.ul.innerHTML = markup;
 }
 
-function rendercountry(country) {
+function renderCountry(country) {
   const markup = country
     .map(country => {
-      console.log(Object.values(country.languages).join(' '));
-      return `<article>
-  <h1>${country.name.official}</h1>
-  <img src="${country.flags.svg}" alt="" width="20">
-  <p>Capital: ${country.capital}</p>
-  <p>Population: ${country.population}</p>
-  <p>Languages: ${Object.values(country.languages).join(' , ')}</p>
-</article>`;
+      return `<div class="container"><img
+  class="country-info__img"
+  src="${country.flags.svg}"
+  alt="National Flag of ${country.name.official}"
+  width="40"
+/>
+<p class="country-info__name">${country.name.official}</p></div>
+<p class="country-info__item">
+  <span class="country-info__accent">Capital: </span>${country.capital}
+</p>
+<p class="country-info__item">
+  <span class="country-info__accent">Population: </span>${country.population}
+</p>
+<p class="country-info__item">
+  <span class="country-info__accent">Languages: </span
+  >${Object.values(country.languages).join(', ')}
+</p>`;
     })
     .join('');
-  refs.ul.innerHTML = markup;
+  refs.div.innerHTML = markup;
 }
