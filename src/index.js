@@ -1,5 +1,5 @@
 import './css/styles.css';
-import { fetchCountries } from './js/fetchCountries';
+import { fetchCountries } from './js/fetch-countries';
 import { renderСountriesList } from './js/render-countries-list';
 import { renderCountryInfo } from './js/render-country-info';
 import { clearСountriesList, clearСountryInfo } from './js/reset-markup';
