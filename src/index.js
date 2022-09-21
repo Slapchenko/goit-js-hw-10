@@ -36,7 +36,9 @@ function onInput() {
         renderCountryInfo(result);
       }
     })
-    .catch(() =>
-      Notiflix.Notify.failure('Oops, there is no country with that name')
-    );
+    .catch(() => {
+      clearСountriesList();
+      clearСountryInfo();
+      Notiflix.Notify.failure('Oops, there is no country with that name');
+    });
 }
